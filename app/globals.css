@@ -1,26 +1,30 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #f5f6f8;
+  color: #1a1d23;
 }
+
+main { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+
+.task-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.task-form input[type='text'] { flex: 1 1 220px; padding: 0.55rem 0.7rem; border: 1px solid #d0d4db; border-radius: 6px; font-size: 0.95rem; }
+.task-form select { padding: 0.55rem 0.5rem; border: 1px solid #d0d4db; border-radius: 6px; font-size: 0.95rem; background: white; }
+.task-form button, .task-item button { padding: 0.55rem 1rem; border: none; border-radius: 6px; background: #2f6feb; color: white; font-size: 0.95rem; cursor: pointer; }
+.task-form button:disabled, .task-item button:disabled { opacity: 0.6; cursor: not-allowed; }
+.task-item .delete-btn { background: #d64545; }
+.form-error { color: #c0392b; font-size: 0.85rem; margin: -0.75rem 0 1rem; }
+.banner-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c0; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+.empty-state, .loading-state { color: #6b7280; padding: 1.5rem 0; text-align: center; }
+.task-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.task-item { display: flex; align-items: center; gap: 0.75rem; background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; }
+.task-item.is-pending { opacity: 0.6; }
+.task-item .title { flex: 1; font-size: 0.95rem; word-break: break-word; }
+.status-badge { font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 999px; text-transform: capitalize; white-space: nowrap; }
+.status-todo { background: #eef1f5; color: #4b5563; }
+.status-in-progress { background: #fff4de; color: #92600b; }
+.status-done { background: #e6f6ea; color: #1e7a34; }
+.task-item select { padding: 0.35rem 0.4rem; border-radius: 6px; border: 1px solid #d0d4db; font-size: 0.85rem; }
