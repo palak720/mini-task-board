@@ -8,8 +8,11 @@ function parseId(raw: string): number | null {
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseId(params.id);
+type RouteContext = { params: Promise<{ id: string }> };
+
+export async function PATCH(request: NextRequest, context: RouteContext) {
+  const { id: rawId } = await context.params;
+  const id = parseId(rawId);
   if (id === null) {
     const body: ApiResponse<never> = { ok: false, error: 'Invalid task id.' };
     return NextResponse.json(body, { status: 400 });
@@ -48,14 +51,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const body: ApiResponse<Task> = { ok: true, data: rows[0] as Task };
     return NextResponse.json(body);
   } catch (err) {
-    console.error(`PATCH /api/tasks/${params.id} failed:`, err);
+    console.error(`PATCH /api/tasks/${rawId} failed:`, err);
     const body: ApiResponse<never> = { ok: false, error: 'Failed to update task.' };
     return NextResponse.json(body, { status: 500 });
   }
 }
 
-export async function DELETE(_request: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseId(params.id);
+export async function DELETE(_request: NextRequest, context: RouteContext) {
+  const { id: rawId } = await context.params;
+  const id = parseId(rawId);
   if (id === null) {
     const body: ApiResponse<never> = { ok: false, error: 'Invalid task id.' };
     return NextResponse.json(body, { status: 400 });
@@ -72,7 +76,7 @@ export async function DELETE(_request: NextRequest, { params }: { params: { id: 
     const body: ApiResponse<{ id: number }> = { ok: true, data: { id } };
     return NextResponse.json(body);
   } catch (err) {
-    console.error(`DELETE /api/tasks/${params.id} failed:`, err);
+    console.error(`DELETE /api/tasks/${rawId} failed:`, err);
     const body: ApiResponse<never> = { ok: false, error: 'Failed to delete task.' };
     return NextResponse.json(body, { status: 500 });
   }
